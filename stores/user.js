@@ -1,11 +1,11 @@
 import { defineStore } from 'pinia'
-import axios from '~~/plugins/axios'
+import axios from '~/plugins/axios'
 
 const $axios = axios().provide.axios
 
-export const useCounterStore = defineStore('counter', {
+export const useUserStore = defineStore('user', {
   state: () => ({
-     id: '',
+    id: '',
     theme_id: '',
     name: '',
     email: '',
