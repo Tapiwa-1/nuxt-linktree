@@ -1,5 +1,6 @@
 <template>
  <VitePwaManifest/>
+ <div v-if="bgIsGray" class="bg-[#F3F3F1] fixed w-full h-full z-[-1]" />
  <NuxtPage/>
 </template>
 <script setup>
@@ -34,5 +35,13 @@ const colors = () => {
         { id: 7, color: 'bg-gradient-to-t from-lime-500 via-indigo-700 to-amber-500', text: 'text-white', name: 'Soft Horizon' },
         { id: 8, color: 'bg-gradient-to-t from-gray-800 to-emerald-500', text: 'text-white', name: 'Tinted Lake' },
     ]
+}
+
+const checkPath = (path) => {
+  if (path == '/' || path == '/register') {
+    bgIsGray.value = false
+    return
+  }
+  bgIsGray.value = true
 }
 </script>
