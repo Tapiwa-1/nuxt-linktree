@@ -148,8 +148,75 @@
                 </div>
             </div>
             <div class="w-full flex items-center justify-between px-4 py-5">
-                
+                <img
+                    src="https://picsum.photos/200"
+                    class="rounded-lg w-[100] aspect-quare"
+                >
+                <div class="w-full pl-3">
+                    
+                <div class="w-full pl-3">
+                    <button 
+                        @click="openCropper = true"
+                        class="
+                            flex 
+                            items-center 
+                            justify-center 
+                            w-full 
+                            py-3 
+                            rounded-full 
+                            text-white 
+                            font-semibold 
+                            bg-[#8228D9] 
+                            hover:bg-[#6c21b3] 
+                            mb-2
+                        "
+                    >
+                        Change
+                    </button>
+                </div>
             </div>
         </div>
     </div>
 </template>
+
+<script setup>
+import { useUserStore } from '~~/stores/user';
+import { storeToRefs } from 'pinia';
+const userStore = useUserStore()
+const { isMobile, updatedLinkId } = storeToRefs(userStore)
+
+const props = defineProps({
+    link: Object,
+    selectedId: { type: Number, default: 0 },
+    selectedStr: { type: String, default: '' },
+})
+
+const { link, selectedId, selectedStr } = toRefs(props)
+
+const emit = defineEmits(['updatedInput'])
+
+let name = ref('')
+let url = ref('')
+let data = ref(null)
+let isDelete = ref(false)
+let openCropper = ref(false)
+let isUploadImage = ref(false)
+
+onMounted (() =>{
+    name.value = link.value.name
+    url.value = link.value.url
+
+    document.addEventListener('mouseup', function (e){
+        let editNameInput = document.getElementById(`editNameInput-${link.value.id}`)
+        if (
+            editNameInput &&
+            !editNameInput.contains(e.target) && 
+            selectedStr.value == 'isName' && 
+            link.value.id == selectedId.value
+        ) { 
+            editNameInput.blur() 
+            emit('updatedInput', { id: 0, str: '' })
+        }
+    })
+})
+</script>
